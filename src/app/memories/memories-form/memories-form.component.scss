@@ -1,0 +1,20 @@
+/* Memories Form Component Styles */
+.form-label {
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  border-radius: 15px 15px 0 0 !important;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+

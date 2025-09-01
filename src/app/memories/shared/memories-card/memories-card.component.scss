@@ -1,0 +1,19 @@
+/* Memories Card Component Styles */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-title {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.btn-group .btn {
+  border-radius: 6px;
+}
+

@@ -1,0 +1,45 @@
+:root {
+  --primary-color: #007bff;
+}
+
+.navbar {
+  transition: all 0.3s ease;
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  .nav-link {
+    position: relative;
+    transition: all 0.3s ease;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    &:hover::after {
+      width: 100%;
+    }
+    
+    &.active {
+      color: var(--primary-color) !important;
+      
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+}
