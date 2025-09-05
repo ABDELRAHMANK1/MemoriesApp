@@ -1,0 +1,83 @@
+<div class="contact-container">
+  <div class="contact-card">
+    <div class="contact-header">
+      <h2>Contact Us</h2>
+      <p>Get in touch with us</p>
+    </div>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="f['name'].touched && f['name'].invalid" placeholder="Enter your name" />
+        <div *ngIf="f['name'].touched && f['name'].invalid" class="invalid-feedback">
+          <div *ngIf="f['name'].errors?.['required']">Name is required.</div>
+          <div *ngIf="f['name'].errors?.['minlength']">Name must be at least 2 characters.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" class="form-control" [class.is-invalid]="f['email'].touched && f['email'].invalid" placeholder="Enter your email" />
+        <div *ngIf="f['email'].touched && f['email'].invalid" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+          <div *ngIf="f['email'].errors?.['email']">Email must be valid.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" formControlName="subject" class="form-control" [class.is-invalid]="f['subject'].touched && f['subject'].invalid" placeholder="Enter subject" />
+        <div *ngIf="f['subject'].touched && f['subject'].invalid" class="invalid-feedback">
+          <div *ngIf="f['subject'].errors?.['required']">Subject is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" rows="4" formControlName="message" class="form-control" [class.is-invalid]="f['message'].touched && f['message'].invalid" placeholder="Enter your message"></textarea>
+        <div *ngIf="f['message'].touched && f['message'].invalid" class="invalid-feedback">
+          <div *ngIf="f['message'].errors?.['required']">Message is required.</div>
+          <div *ngIf="f['message'].errors?.['minlength']">Message must be at least 10 characters.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-contact w-100" [disabled]="contactForm.invalid">Send Message</button>
+
+      <div *ngIf="isSubmitted" class="alert alert-success mt-3">
+        Thank you for contacting us! We will get back to you soon.
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="bg-gradient mt-5 py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5 class="text-black">Contact Information</h5>
+        <p class="text-black"><i class="bi bi-envelope-fill me-2 text-info"></i>contact&#64;memoriesapp.com</p>
+        <p class="text-black"><i class="bi bi-geo-alt-fill me-2 text-success"></i>New York, NY</p>
+        <p class="text-black"><i class="bi bi-calendar-fill me-2 text-warning"></i>&copy; 2024 Memories App</p>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-black">About</h5>
+        <p class="text-black">Preserve your precious memories with our modern memory management app. Create, organize, and share your memories with ease.</p>
+        <p class="text-black"><strong>Developer:</strong> Abdelrahman Khalid</p>
+        <p class="text-black"><strong>Email:</strong> abdelrahman.khalid&#64;example.com</p>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-black">Follow Us</h5>
+        <div class="social-links">
+          <a href="https://linkedin.com/in/abdelrahman-khalid" target="_blank" class="text-black me-3">
+            <i class="bi bi-linkedin fs-4"></i>
+          </a>
+          <a href="https://github.com/abdelrahman-khalid" target="_blank" class="text-black me-3">
+            <i class="bi bi-github fs-4"></i>
+          </a>
+          <a href="mailto:abdelrahman.khalid&#64;example.com" class="text-black">
+            <i class="bi bi-envelope fs-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

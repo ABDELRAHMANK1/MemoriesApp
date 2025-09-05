@@ -6,6 +6,7 @@ export interface Memory {
   description: string;
   authorName: string;
   date: Date;
+  photos?: string[]; // Array of base64 encoded images
 }
 
 @Injectable({
@@ -60,15 +61,19 @@ export class MemoryService {
   }
 
   private saveMemoriesToStorage(): void {
-    localStorage.setItem('memories', JSON.stringify(this.memories));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('memories', JSON.stringify(this.memories));
+    }
   }
 
   private loadMemoriesFromStorage(): void {
-    const stored = localStorage.getItem('memories');
-    if (stored) {
-      this.memories = JSON.parse(stored);
-      if (this.memories.length > 0) {
-        this.nextId = Math.max(...this.memories.map(m => m.id)) + 1;
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem('memories');
+      if (stored) {
+        this.memories = JSON.parse(stored);
+        if (this.memories.length > 0) {
+          this.nextId = Math.max(...this.memories.map(m => m.id)) + 1;
+        }
       }
     }
   }

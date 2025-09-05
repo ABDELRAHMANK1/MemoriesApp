@@ -1,21 +1,37 @@
 <div class="container mt-5 pt-5">
   <div class="row mb-4">
     <div class="col">
-      <h1 class="text-center mb-4">My Memories</h1>
-      <div class="d-flex justify-content-between align-items-center">
-        <p class="text-muted mb-0">Total Memories: {{ memories.length }}</p>
-        <a routerLink="/create" class="btn btn-primary">
+      <h1 class="text-center mb-4 fade-in">
+        <i class="bi bi-camera me-3"></i>My Memories
+      </h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <p class="text-muted mb-0 slide-in">
+          <i class="bi bi-collection me-2"></i>Total Memories: {{ filteredMemories.length }}
+        </p>
+        <a routerLink="/create" class="btn btn-primary slide-in">
           <i class="bi bi-plus-circle me-2"></i>Create New Memory
         </a>
+      </div>
+      <div class="input-group mb-3 slide-in">
+        <input type="text" class="form-control" placeholder="Search memories..." [(ngModel)]="searchTerm" (input)="onSearchChange()">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
       </div>
     </div>
   </div>
 
-  <div class="row" *ngIf="memories.length > 0; else noMemories">
-    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let memory of memories">
-      <div class="card h-100 shadow-sm">
+  <div class="row" *ngIf="filteredMemories.length > 0; else noMemories">
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let memory of filteredMemories; let i = index">
+      <div class="card h-100 shadow-sm memory-card" @cardAnimation (click)="openMemoryModal(memory)">
+        <div class="card-img-container" *ngIf="memory.photos && memory.photos.length > 0">
+          <img [src]="memory.photos[0]" class="card-img-top" alt="Memory photo" style="height: 200px; object-fit: cover;">
+          <div class="photo-count" *ngIf="memory.photos.length > 1">
+            <i class="bi bi-images"></i> +{{ memory.photos.length - 1 }}
+          </div>
+        </div>
         <div class="card-body">
-          <h5 class="card-title text-primary">{{ memory.title }}</h5>
+          <h5 class="card-title">{{ memory.title }}</h5>
           <p class="card-text">{{ memory.description }}</p>
           <div class="mt-auto">
             <small class="text-muted">
@@ -29,15 +45,15 @@
         </div>
         <div class="card-footer bg-transparent">
           <div class="btn-group w-100" role="group">
-                          <button 
-                type="button" 
-                class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-pencil me-1"></i>Edit
-              </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-pencil me-1"></i>Edit
+            </button>
+            <button
+              type="button"
               class="btn btn-outline-danger btn-sm"
-              (click)="deleteMemory(memory.id)">
+              (click)="deleteMemory(memory.id); $event.stopPropagation()">
               <i class="bi bi-trash me-1"></i>Delete
             </button>
           </div>
@@ -47,7 +63,7 @@
   </div>
 
   <ng-template #noMemories>
-    <div class="text-center py-5">
+    <div class="text-center py-5 fade-in">
       <i class="bi bi-journal-text display-1 text-muted"></i>
       <h3 class="text-muted mt-3">No Memories Yet</h3>
       <p class="text-muted">Start creating your first memory!</p>
@@ -56,4 +72,43 @@
       </a>
     </div>
   </ng-template>
+</div>
+
+<!-- Memory Modal -->
+<div class="memory-modal-overlay" *ngIf="selectedMemory" (click)="closeMemoryModal()">
+  <div class="memory-modal-content" (click)="$event.stopPropagation()">
+    <div class="memory-modal-header">
+      <h5 class="memory-modal-title">{{ selectedMemory.title }}</h5>
+      <button type="button" class="memory-modal-close" (click)="closeMemoryModal()" aria-label="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="memory-modal-body">
+      <div *ngIf="selectedMemory.photos && selectedMemory.photos.length > 0" class="mb-3">
+        <div class="row g-3">
+          <div class="col-12 mb-3" *ngFor="let photo of selectedMemory.photos; let i = index">
+            <img [src]="photo" class="img-fluid rounded shadow-sm" alt="Memory photo {{ i + 1 }}" style="width: 100%; max-height: 400px; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+      <p class="mb-3">{{ selectedMemory.description }}</p>
+      <div class="row">
+        <div class="col-md-6">
+          <small class="text-muted">
+            <i class="bi bi-person me-1"></i><strong>Author:</strong> {{ selectedMemory.authorName }}
+          </small>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <small class="text-muted">
+            <i class="bi bi-calendar me-1"></i><strong>Date:</strong> {{ formatDate(selectedMemory.date) }}
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="memory-modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeMemoryModal()">
+        <i class="bi bi-x-circle me-2"></i>Close
+      </button>
+    </div>
+  </div>
 </div>
